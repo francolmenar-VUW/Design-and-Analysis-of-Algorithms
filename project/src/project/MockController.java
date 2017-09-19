@@ -7,9 +7,6 @@ import java.awt.event.KeyListener;
 
 public class MockController implements ActionListener,KeyListener {
 
-	public MockController() {
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("perform");
@@ -32,4 +29,3 @@ public class MockController implements ActionListener,KeyListener {
 
 
 }
- 

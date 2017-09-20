@@ -1,7 +1,74 @@
 package core1;
 
+import java.util.Scanner;
+
 public class Main {
-	//http://techieme.in/solving-01-knapsack-problem-using-dynamic-programming/
+	private final static int CELLSIZE = 6;
+	private final static int EMPTYCELLSIZE = 8;
+
+	  /**
+     * It creates the knapsack table and return the best result
+     * @param W: the maximum weight
+     * @param wt: the array of different weights
+     * @param val: the array of different values
+     * @param n: number of different values
+     * @return the biggest possible value to be stored in the knapsack
+     */
+	private static int knapSack(int W, int wt[], int val[], int n){
+	    /*				I create the table
+	 	The columns represent the maximum allowed weight
+	 	The rows represent the  maximum allowed value (for example,
+	 	if we are in value 3, we can use the value number 0,..,3   */
+
+	     int table [][] = new int[n][W+1];
+
+	     initializeValues(table);
+	     populateTable(table, W, wt, val, n);
+	     printTable(table, W, wt, val, n);
+
+	     return table[n-1][W];
+	    }
+
+	 /**
+	  * It initializes the trivial values of the knapsack table
+	 * @param table: the knapsack table
+	  */
+	private static void initializeValues(int[][] table) {
+		for(int j = 0; j < table[0].length; j++) {//The first column has maximum weight 0
+			table[0][j] = 0;//So we set to 0 all its values
+		}
+	}
+
+	/**
+	 * It makes all the calculations to populate the table
+	 * @param table: the knapsack table
+	 * @param W: the maximum weight
+     * @param wt: the array of different weights
+     * @param val: the array of different values
+     * @param n: number of different values
+	 */
+	private static void populateTable(int[][] table, int W, int[] wt, int[] val, int n) {
+	     int availableWeight, previousOptimum;//Auxiliary for the loop
+
+		 for (int i = 0; i < n; i++){//Rows -> the values available
+	         for (int j = 0; j <= W; j++) {//Columns -> the maximum weight
+	             if (wt[i]  <= j){//I check if the weight I am going to obtain of the weight array is bigger than the actual maximum weight
+	            	 if(i == 0) {
+	            		 table[i][j] = val[i];
+	            	 }
+	            	 else {
+	            		 availableWeight = j-wt[i];//It is the weight that would be available using the weight of the weight array
+		            	 previousOptimum = table[i-1][availableWeight];//It is the optimum solution previously calculated using the availableWeight
+		            	 table[i][j] = max(val[i] + previousOptimum,  table[i-1][j]);//I calculate the optimum solution between using the new item or not
+	            	 }
+	             }
+	             else{//As the weight that I should use of the weight array is bigger than the maximum weight, I copy the previous result
+	            	 if(j == 0) {table[i][j] = 0;}
+	            	 else{table[i][j] = table[i][j-1];}
+	             }
+	         }
+	      }
+	 }
 
 	/**
 	 * It returns the max of two numbers
@@ -9,43 +76,142 @@ public class Main {
 	 * @param b
 	 * @return the max value of both numbers
 	 */
-    public static int max(int a, int b) {
+    private static int max(int a, int b) {
     	if(a > b) { return a;}
     	else { return b;}
     }
 
-    /**
-     * It
+	 /**
+	  * It prints the table if the user wants to
+      * @param W: the maximum weight
+      * @param wt: the array of different weights
+      * @param val: the array of different values
+      * @param n: number of different values
+	  * @param table: the knapsack table
+	  */
+	private static void printTable(int[][] table, int W, int[] wt, int[] val, int n) {
+		if(userWants()) {//The user wants to print the table
+			printKnapsackTable(table, W, wt, val, n);
+		}
+	}
+
+
+
+
+
+	/**
+	 * It ask to the user if he wants to print the table
+	 * @return
+	 */
+	private static boolean userWants() {
+		Scanner reader = new Scanner(System.in);// Reading from System.in
+		System.out.println("Do you want to print the knapsack table? (Yes/No)");
+		String answer = reader.next();
+		reader.close();
+		if(answer.equals("Yes")) {return true;}
+		else {return false;}
+	}
+
+	/**
+	 * It prints the knapsack table
+	 * @param table: the knapsack table
      * @param W: the maximum weight
      * @param wt: the array of different weights
      * @param val: the array of different values
      * @param n: number of different values
-     * @return the biggest possible value to be stored in the knapsack
-     */
-	 public static int knapSack(int W, int wt[], int val[], int n){
-	    /*				I create the table:
-	 	The columns represent the maximum allowed weight
-	 	The rows represent the  maximum allowed value (for example,
-	 	 if we are in value 3, we can use the value number 0,..,3 */
+	 */
+	private static void printKnapsackTable(int[][] table, int W, int[] wt, int[] val, int n) {
+		String output = "";
 
-	     int K[][] = new int[n][W+1];
+		output = headerColumns(output, W);
+		output = rows(table, output, W, wt, val, n);
 
-	     // Build table K[][] in up bottom manner
-	     for (int i = 0; i <= n; i++){//Rows
-	         for (int j = 0; j <= W; j++) {//Columns
-	             if (i==0 || j==0){
-	                  K[i][j] = 0;
-	             }
-	             else if (wt[i-1] <= j){
-	                   K[i][j] = max(val[i-1] + K[i-1][j-wt[i-1]],  K[i-1][j]);
-	             }
-	             else{
-	                   K[i][j] = K[i-1][j];
-	             }
+		System.out.println(output);//I print the table
+	}
+
+
+	/**
+	 * It prints the header of the columns
+	 * @param output: the String that contains the table
+     * @param W: the maximum weight
+	 */
+	private static String headerColumns(String output, int W) {
+		for(int j = 0; j < EMPTYCELLSIZE-1; j++) {//The header of the first column is empty
+			output += " ";
+		}
+		for(int i = 0; i <= W; i++) {
+			if(i == 0) { output = copyNumber(output, 0);}
+			else{output = copyNumber(output, i);}
+		}
+		return output += "\n\n";
+	}
+
+	/**
+	 * It copy a number into a string
+	 * @param output: the String that contains the table
+	 * @param number: the number to be copied
+	 */
+	private static String copyNumber(String output, int number) {
+		for(int j = 0; j < CELLSIZE; j++) {//I copy the number and the correct number of spaces to the String
+			if(j == 2) {//I copy the number in the third position
+				output += Integer.toString(number);
+				j += String.valueOf(number).length();
+			}
+			else {
+				output +=" ";
+			}
+		}
+		return output;
+	}
+
+
+	/**
+	 * It prints the rows of the table
+	 * @param table: the knapsack table
+	 * @param output: the String that contains the table
+	 * @param W: the maximum weight
+     * @param wt: the array of different weights
+     * @param val: the array of different values
+     * @param n: number of different values
+	 * @return: the String that contains the table
+	 */
+	private static String rows(int[][] table, String output, int W, int[] wt, int[] val, int n) {
+		for (int i = n-1; i >= 0; i--){//Rows -> the values available
+	         for (int j = 0; j <= W; j++) {//Columns -> the maximum weight
+	        	 if(j == 0) {
+	        			 output = rowHeader(output, wt, val, i);
+	        	 }
+        		 output = copyNumber(output, table[i][j]);//I copy the value in the table
 	         }
-	      }
-	      return K[n][W];
-	    }
+	         output += "\n\n";
+		}
+	    return output;
+	}
+
+	/**
+	 * It prints the header row
+	 * @param output: the String that contains the table
+     * @param wt: the array of different weights
+     * @param val: the array of different values
+	 * @param i: the row
+	 * @return: the String that contains the table
+	 */
+	private static String rowHeader(String output, int[] wt, int[] val, int i) {
+		int aux = 1;
+		 output += Integer.toString(wt[i]);
+		 output +="(";
+		 aux += String.valueOf(wt[i]).length() + 1;
+
+		 output += Integer.toString(val[i]);
+		 output +=")";
+		 aux += String.valueOf(val[i]).length() + 1;
+		 if(aux < EMPTYCELLSIZE) {
+				for(int j = aux; j < EMPTYCELLSIZE; j++) {
+					output += " ";
+				}
+		 }
+		 return output;
+	}
 
 	public static void main(String[] args) {
 	 	int val[] = new int[]{60, 100, 120};

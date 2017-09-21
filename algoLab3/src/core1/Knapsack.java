@@ -4,8 +4,8 @@ import java.util.Scanner;
 import core1.WrongInputsException;
 
 public class Knapsack {
-	private final static int CELLSIZE = 6;//Variables to print the table
-	private final static int EMPTYCELLSIZE = 8;
+	private final static int CELL_SIZE = 6;//Variables to print the table
+	private final static int EMPTY_CELL_SIZE = 8;
 
 	  /**
      * It creates the knapsack table and return the best result
@@ -121,14 +121,13 @@ public class Knapsack {
 		System.out.println(output);//I print the table
 	}
 
-
 	/**
 	 * It prints the header of the columns
 	 * @param output: the String that contains the table
      * @param W: the maximum weight
 	 */
 	private static String headerColumns(String output, int W) {
-		for(int j = 0; j < EMPTYCELLSIZE-1; j++) {//The header of the first column is empty
+		for(int j = 0; j < EMPTY_CELL_SIZE-1; j++) {//The header of the first column is empty
 			output += " ";
 		}
 		for(int i = 0; i <= W; i++) {
@@ -144,7 +143,7 @@ public class Knapsack {
 	 * @param number: the number to be copied
 	 */
 	private static String copyNumber(String output, int number) {
-		for(int j = 0; j < CELLSIZE; j++) {//I copy the number and the correct number of spaces to the String
+		for(int j = 0; j < CELL_SIZE; j++) {//I copy the number and the correct number of spaces to the String
 			if(j == 2) {//I copy the number in the third position
 				output += Integer.toString(number);
 				j += String.valueOf(number).length();
@@ -197,8 +196,8 @@ public class Knapsack {
 		 output += Integer.toString(val[i]);
 		 output +=")";
 		 aux += String.valueOf(val[i]).length() + 1;
-		 if(aux < EMPTYCELLSIZE) {
-				for(int j = aux; j < EMPTYCELLSIZE; j++) {
+		 if(aux < EMPTY_CELL_SIZE) {
+				for(int j = aux; j < EMPTY_CELL_SIZE; j++) {
 					output += " ";
 				}
 		 }

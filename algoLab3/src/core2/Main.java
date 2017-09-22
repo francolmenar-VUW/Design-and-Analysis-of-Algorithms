@@ -1,7 +1,7 @@
-package core1;
+package core2;
 
 import Exceptions.WrongInputsException;
-import core1.Knapsack;
+import core2.Knapsack;
 
 
 public class Main {
@@ -14,6 +14,7 @@ public class Main {
 
 	/**
 /	 * It performs a normal execution
+	 * @param repetition: the number of duplicated items that can be of each type
      * @param MaxWeight: the maximum weight
      * @param weight: the array of different weights
      * @param value: the array of different values
@@ -21,8 +22,8 @@ public class Main {
      * @param ask: If it is true it ask for the user interaction to print the table
 	 * @throws WrongInputsException
 	 */
-	private static int normalExecution(int MaxWeight, int[] weight, int[] value, int NumberOfValues, boolean b) throws WrongInputsException {
-		return Knapsack.knapSack(MaxWeight, weight, value, NumberOfValues, b);
+	private static int normalExecution(int MaxWeight, int[] weight, int[] value, int[] repetition, int NumberOfValues, boolean b) throws WrongInputsException {
+		return Knapsack.knapSack(MaxWeight, weight, value, repetition, NumberOfValues, b);
 	}
 
 	/**
@@ -39,10 +40,10 @@ public class Main {
 			aux = BASE_NUMBER_OF_ELEMENTS + (SUM * i);//The total number of elements that we are going to create
 			int value[] = new int[aux];//I create the arrays
 		    int weight[] = new int[aux];
-
-		    fillArray(value, weight, aux);//I fill the arrays
-		    //duration [i] = lessReliableTime(weight,value);
-		    duration [i] = moreReliableTime(weight, value);//I calculate the average time of executing the program with a certain amount of elements
+		    int repetition [] = new int[aux];
+		    fillArray(value, weight, repetition, aux);//I fill the arrays
+		    //duration [i] = lessReliableTime(weight,value,repetition);
+		    duration [i] = moreReliableTime(weight, value, repetition);//I calculate the average time of executing the program with a certain amount of elements
 			sum += duration[i];
 
 		    System.out.println("\n" + aux + "\t\t\t\t" + duration[i]);
@@ -55,15 +56,18 @@ public class Main {
 	 * It fills the arrays with random numbers between 1 and 5
 	 * @param value: the arrays
 	 * @param weight
+	 * @param repetition: the number of duplicated items that can be of each type
 	 * @param aux:The index of the loop
 	 */
-	private static void fillArray(int[] value, int[] weight, int aux) {
+	private static void fillArray(int[] value, int[] weight, int[] repetition, int aux) {
 		int randomNum;
 		for(int j = 0; j < aux; j++) {
 			randomNum = 1 + (int)(Math.random() * 5);
 			value[j] = randomNum;
 			randomNum = 1 + (int)(Math.random() * 5);
 			weight[j] = randomNum;
+			randomNum = 1 + (int)(Math.random() * 5);
+			repetition[j] = randomNum;
 		}
 	}
 
@@ -71,14 +75,15 @@ public class Main {
 	 * It executes the program 1 time and calculate the time of its execution
 	 * @param weight: the array of different weights
      * @param value: the array of different values
+	 * @param repetition: the number of duplicated items that can be of each type
 	 * @return the average time to execute the program
 	 * @throws WrongInputsException
 	 */
 	@SuppressWarnings("unused")
-	private static long lessReliableTime(int[] weight, int[] value) throws WrongInputsException {
+	private static long lessReliableTime(int[] weight, int[] value, int[] repetition) throws WrongInputsException {
 		long startTime, endTime;
 		startTime = System.nanoTime();//Calculate the time
-		normalExecution(DEFAULT_MAX_WEIGHT, weight, value, value.length, false);
+		normalExecution(DEFAULT_MAX_WEIGHT, weight, value, repetition, value.length, false);
 		endTime = System.nanoTime();
 		return (long) (endTime - startTime) / 1000000;
 	}
@@ -88,15 +93,16 @@ public class Main {
 	 * Because of it, it is slower than the upper method
 	 * @param weight: the array of different weights
      * @param value: the array of different values
+	 * @param repetition: the number of duplicated items that can be of each type
 	 * @return the average time to execute the program
 	 * @throws WrongInputsException
 	 */
-	private static long moreReliableTime(int[] weight, int[] value) throws WrongInputsException {
+	private static long moreReliableTime(int[] weight, int[] value, int[] repetition) throws WrongInputsException {
 		long auxTime [] = new long [30];
 		long sum = 0, startTime, endTime;
 		for(int i = 0; i < 30; i++) {
 			startTime = System.nanoTime();//Calculate the time
-			normalExecution(DEFAULT_MAX_WEIGHT, weight, value, value.length, false);
+			normalExecution(DEFAULT_MAX_WEIGHT, weight, value, repetition, value.length, false);
 			endTime = System.nanoTime();
 			auxTime [i] = (endTime - startTime) / 1000000;
 			sum += auxTime[i];
@@ -105,11 +111,12 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws WrongInputsException {
-		int value[] = new int[]{60, 100, 120};
-	    int weight[] = new int[]{10, 20, 30};
-	    int  MaxWeight = 50;
+		int value[] = new int[]{30, 14, 16, 9};
+	    int weight[] = new int[]{6,3,4,2};
+	    int repetition[] = new int [] {10,10,10,10};
+	    int  MaxWeight = 10;
 	    int NumberOfValues = value.length;
-		System.out.println(normalExecution(MaxWeight, weight, value, NumberOfValues, true));
+		System.out.println(normalExecution(MaxWeight, weight, value, repetition,NumberOfValues, true));
 	    //runTimePlot();
 	}
 }

@@ -1,7 +1,8 @@
 package core1;
 
 import java.util.Scanner;
-import core1.WrongInputsException;
+
+import Exceptions.WrongInputsException;
 
 public class Knapsack {
 	private final static int CELL_SIZE = 6;//Variables to print the table
@@ -9,53 +10,53 @@ public class Knapsack {
 
 	  /**
      * It creates the knapsack table and return the best result
-     * @param W: the maximum weight
-     * @param wt: the array of different weights
-     * @param val: the array of different values
-     * @param n: number of different values
+     * @param MaxWeight: the maximum weight
+     * @param weight: the array of different weights
+     * @param value: the array of different values
+     * @param NumberOfValues: number of different values
      * @param ask: If it is true it ask for the user interaction to print the table
      * @return the biggest possible value to be stored in the knapsack
 	 * @throws WrongInputsException
      */
-	public static int knapSack(int W, int wt[], int val[], int n, boolean ask) throws WrongInputsException{
+	public static int knapSack(int MaxWeight, int weight[], int value[], int NumberOfValues, boolean ask) throws WrongInputsException{
 	    /*				I create the table
 	 	The columns represent the maximum allowed weight
 	 	The rows represent the  maximum allowed value (for example,
 	 	if we are in value 3, we can use the value number 0,..,3   */
-		if(wt.length != val.length) {
+		if(weight.length != value.length) {
 			throw new WrongInputsException();
 		}
 
-	     int table [][] = new int[n][W+1];
+	     int table [][] = new int[NumberOfValues][MaxWeight+1];
 
-	     populateTable(table, W, wt, val, n);
-	     if(ask) {printTable(table, W, wt, val, n);}
+	     populateTable(table, MaxWeight, weight, value, NumberOfValues);
+	     if(ask) {printTable(table, MaxWeight, weight, value, NumberOfValues);}
 
-	     if(table.length > 0) {return table[n-1][W];}//I check if there is any element
+	     if(table.length > 0) {return table[NumberOfValues-1][MaxWeight];}//I check if there is any element
 	     else {return 0;}
 	    }
 
 	/**
 	 * It makes all the calculations to populate the table
 	 * @param table: the knapsack table
-	 * @param W: the maximum weight
-     * @param wt: the array of different weights
-     * @param val: the array of different values
-     * @param n: number of different values
+	 * @param MaxWeight: the maximum weight
+     * @param weight: the array of different weights
+     * @param value: the array of different values
+     * @param NumberOfValues: number of different values
 	 */
-	private static void populateTable(int[][] table, int W, int[] wt, int[] val, int n) {
+	private static void populateTable(int[][] table, int MaxWeight, int[] weight, int[] value, int NumberOfValues) {
 	     int availableWeight, previousOptimum;//Auxiliary for the loop
 
-		 for (int i = 0; i < n; i++){//Rows -> the values available
-	         for (int j = 0; j <= W; j++) {//Columns -> the maximum weight
-	             if (wt[i]  <= j){//I check if the weight I am going to obtain of the weight array is bigger than the actual maximum weight
+		 for (int i = 0; i < NumberOfValues; i++){//Rows -> the values available
+	         for (int j = 0; j <= MaxWeight; j++) {//Columns -> the maximum weight
+	             if (weight[i]  <= j){//I check if the weight I am going to obtain of the weight array is bigger than the actual maximum weight
 	            	 if(i == 0) {
-	            		 table[i][j] = val[i];
+	            		 table[i][j] = value[i];
 	            	 }
 	            	 else {
-	            		 availableWeight = j-wt[i];//It is the weight that would be available using the weight of the weight array
+	            		 availableWeight = j-weight[i];//It is the weight that would be available using the weight of the weight array
 		            	 previousOptimum = table[i-1][availableWeight];//It is the optimum solution previously calculated using the availableWeight
-		            	 table[i][j] = max(val[i] + previousOptimum,  table[i-1][j]);//I calculate the optimum solution between using the new item or not
+		            	 table[i][j] = max(value[i] + previousOptimum,  table[i-1][j]);//I calculate the optimum solution between using the new item or not
 	            	 }
 	             }
 	             else{//As the weight that I should use of the weight array is bigger than the maximum weight, I copy the previous result
@@ -79,15 +80,15 @@ public class Knapsack {
 
 	 /**
 	  * It prints the table if the user wants to
-      * @param W: the maximum weight
-      * @param wt: the array of different weights
-      * @param val: the array of different values
-      * @param n: number of different values
+      * @param MaxWeight: the maximum weight
+      * @param weight: the array of different weights
+      * @param value: the array of different values
+      * @param NumberOfValues: number of different values
 	  * @param table: the knapsack table
 	  */
-	private static void printTable(int[][] table, int W, int[] wt, int[] val, int n) {
+	private static void printTable(int[][] table, int MaxWeight, int[] weight, int[] value, int NumberOfValues) {
 		if(userWants()) {//The user wants to print the table
-			printKnapsackTable(table, W, wt, val, n);
+			printKnapsackTable(table, MaxWeight, weight, value, NumberOfValues);
 		}
 	}
 
@@ -107,16 +108,16 @@ public class Knapsack {
 	/**
 	 * It prints the knapsack table
 	 * @param table: the knapsack table
-     * @param W: the maximum weight
-     * @param wt: the array of different weights
-     * @param val: the array of different values
-     * @param n: number of different values
+     * @param MaxWeight: the maximum weight
+     * @param weight: the array of different weights
+     * @param value: the array of different values
+     * @param NumberOfValues: number of different values
 	 */
-	private static void printKnapsackTable(int[][] table, int W, int[] wt, int[] val, int n) {
+	private static void printKnapsackTable(int[][] table, int MaxWeight, int[] weight, int[] value, int NumberOfValues) {
 		String output = "";
 
-		output = headerColumns(output, W);
-		output = rows(table, output, W, wt, val, n);
+		output = headerColumns(output, MaxWeight);
+		output = rows(table, output, MaxWeight, weight, value, NumberOfValues);
 
 		System.out.println(output);//I print the table
 	}
@@ -124,13 +125,13 @@ public class Knapsack {
 	/**
 	 * It prints the header of the columns
 	 * @param output: the String that contains the table
-     * @param W: the maximum weight
+     * @param MaxWeight: the maximum weight
 	 */
-	private static String headerColumns(String output, int W) {
+	private static String headerColumns(String output, int MaxWeight) {
 		for(int j = 0; j < EMPTY_CELL_SIZE-1; j++) {//The header of the first column is empty
 			output += " ";
 		}
-		for(int i = 0; i <= W; i++) {
+		for(int i = 0; i <= MaxWeight; i++) {
 			if(i == 0) { output = copyNumber(output, 0);}
 			else{output = copyNumber(output, i);}
 		}
@@ -160,17 +161,17 @@ public class Knapsack {
 	 * It prints the rows of the table
 	 * @param table: the knapsack table
 	 * @param output: the String that contains the table
-	 * @param W: the maximum weight
-     * @param wt: the array of different weights
-     * @param val: the array of different values
-     * @param n: number of different values
+	 * @param MaxWeight: the maximum weight
+     * @param weight: the array of different weights
+     * @param value: the array of different values
+     * @param NumberOfValues: number of different values
 	 * @return: the String that contains the table
 	 */
-	private static String rows(int[][] table, String output, int W, int[] wt, int[] val, int n) {
-		for (int i = n-1; i >= 0; i--){//Rows -> the values available
-	         for (int j = 0; j <= W; j++) {//Columns -> the maximum weight
+	private static String rows(int[][] table, String output, int MaxWeight, int[] weight, int[] value, int NumberOfValues) {
+		for (int i = NumberOfValues-1; i >= 0; i--){//Rows -> the values available
+	         for (int j = 0; j <= MaxWeight; j++) {//Columns -> the maximum weight
 	        	 if(j == 0) {
-	        			 output = rowHeader(output, wt, val, i);
+	        			 output = rowHeader(output, weight, value, i);
 	        	 }
         		 output = copyNumber(output, table[i][j]);//I copy the value in the table
 	         }
@@ -182,20 +183,20 @@ public class Knapsack {
 	/**
 	 * It prints the header row
 	 * @param output: the String that contains the table
-     * @param wt: the array of different weights
-     * @param val: the array of different values
+     * @param weight: the array of different weights
+     * @param value: the array of different values
 	 * @param i: the row
 	 * @return: the String that contains the table
 	 */
-	private static String rowHeader(String output, int[] wt, int[] val, int i) {
+	private static String rowHeader(String output, int[] weight, int[] value, int i) {
 		int aux = 1;
-		 output += Integer.toString(wt[i]);
+		 output += Integer.toString(weight[i]);
 		 output +="(";
-		 aux += String.valueOf(wt[i]).length() + 1;
+		 aux += String.valueOf(weight[i]).length() + 1;
 
-		 output += Integer.toString(val[i]);
+		 output += Integer.toString(value[i]);
 		 output +=")";
-		 aux += String.valueOf(val[i]).length() + 1;
+		 aux += String.valueOf(value[i]).length() + 1;
 		 if(aux < EMPTY_CELL_SIZE) {
 				for(int j = aux; j < EMPTY_CELL_SIZE; j++) {
 					output += " ";

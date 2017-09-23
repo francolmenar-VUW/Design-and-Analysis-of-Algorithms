@@ -1,11 +1,10 @@
-package core2;
+package completition1;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import Exceptions.WrongInputsException;
-import core2.Knapsack;
-
+import core1.Item;
 
 public class Main {
 	private static int MaxWeight = 0;
@@ -189,3 +188,4 @@ public class Main {
 	}
 
 }
+

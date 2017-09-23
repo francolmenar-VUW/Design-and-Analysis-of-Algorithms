@@ -13,7 +13,7 @@ public class Main {
 
 
 	/**
-/	 * It performs a normal execution
+	 * It performs a normal execution
      * @param MaxWeight: the maximum weight
      * @param weight: the array of different weights
      * @param value: the array of different values
@@ -49,7 +49,6 @@ public class Main {
 		}
 		System.out.println("\n\nThe average time is " + (long) (sum/NUMBER_OF_PLOTS) + " millisecons with " + NUMBER_OF_PLOTS + " executions");
 	}
-
 
 	/**
 	 * It fills the arrays with random numbers between 1 and 5

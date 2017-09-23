@@ -1,4 +1,4 @@
-package core2;
+package completition1;
 
 import static org.junit.Assert.*;
 
@@ -9,8 +9,7 @@ import org.junit.Test;
 import Exceptions.WrongInputsException;
 import core1.Item;
 
-
-public class Core2Test {
+public class Completition1Test {
 
 	/**
 	 * It transforms the Strings of data into a list of Items
@@ -34,8 +33,8 @@ public class Core2Test {
 	public void knapSackTest1() throws WrongInputsException {
 		ArrayList<Item> elements = new ArrayList<>();
 		int repetition [];
-		repetition = MainCore2.defaultValues(elements);//I use a default values
-		assertTrue(48 == KnapsackCore2.knapSack(elements, repetition,MainCore2.DEFAULT_MAXIMUM_WEIGHT, true));
+		repetition = MainCompletition1.defaultValues(elements);//I use a default values
+		assertTrue(48 == KnapsackCompletition1.knapSack(elements, repetition, MainCompletition1.DEFAULT_MAXIMUM_WEIGHT, false));
 	}
 
 	/**
@@ -50,7 +49,7 @@ public class Core2Test {
 		int weight [] = new int [] {30,25,23,20,10,5};
 		int repetition [] = new int [] {3,3,3,3,3,3};
 	    createElements(elements,value, weight, name);
-		assertTrue(51 == KnapsackCore2.knapSack(elements, repetition, 100, true));
+		assertTrue(51 == KnapsackCompletition1.knapSack(elements, repetition, 100, false));
 	}
 
 	/**
@@ -66,7 +65,7 @@ public class Core2Test {
 	    int  MaxWeight = 10;
 	    createElements(elements,value, weight, name);
 		int repetition [] = new int [] {1,1,1};
-		assertTrue(60 == KnapsackCore2.knapSack(elements, repetition, MaxWeight, true));
+		assertTrue(60 == KnapsackCompletition1.knapSack(elements, repetition, MaxWeight, false));
 	}
 
 	/**
@@ -82,7 +81,7 @@ public class Core2Test {
 	    int  MaxWeight = 0;
 	    createElements(elements,value, weight, name);
 	    int repetition [] = new int [] {1,1,1};
-		assertTrue(0 == KnapsackCore2.knapSack(elements, repetition, MaxWeight, true));
+		assertTrue(0 == KnapsackCompletition1.knapSack(elements, repetition, MaxWeight, false));
 	}
 
 	/**
@@ -98,7 +97,7 @@ public class Core2Test {
 	    int  MaxWeight = 50;
 	    int repetition [] = new int [] {1,1,1};
 	    createElements(elements,value, weight, name);
-		assertTrue(0 == KnapsackCore2.knapSack(elements, repetition, MaxWeight, true));
+		assertTrue(0 == KnapsackCompletition1.knapSack(elements, repetition, MaxWeight, false));
 	}
 
 	/**
@@ -114,7 +113,7 @@ public class Core2Test {
 	    int  MaxWeight = 50;
 	    int repetition [] = new int [] {1,1,1};
 	    createElements(elements,value, weight, name);
-	    KnapsackCore2.knapSack(elements, repetition, MaxWeight, true);
+	    KnapsackCompletition1.knapSack(elements, repetition, MaxWeight, false);
 	}
 
 	/**
@@ -130,6 +129,7 @@ public class Core2Test {
 	    int  MaxWeight = 50;
 	    int repetition [] = new int [] {1,-1,1};
 	    createElements(elements,value, weight, name);
-	    KnapsackCore2.knapSack(elements, repetition, MaxWeight, true);
+	    KnapsackCompletition1.knapSack(elements, repetition, MaxWeight, false);
 	}
+
 }

@@ -18,7 +18,7 @@ public class MainCore1 {
 
 	private static final int NUMBER_OF_PLOTS = 30;
 	private static final int BASE_NUMBER_OF_ELEMENTS = 10;
-	private static final int SUM = 1000;
+	private static final int SUM = 500;
 	private static final int DEFAULT_MAX_WEIGHT = 1000;
 
 
@@ -130,7 +130,7 @@ public class MainCore1 {
 			System.out.println("Name: " + elem.getName() + "\tValue: " + elem.getValue() +
 					"\tWeight: " + elem.getWeight() + "\n");
 		}
-		System.out.println(normalExecution(elements, MaxWeight, ASK_USER));
-	    //runTimePlot();
+		//System.out.println(normalExecution(elements, MaxWeight, ASK_USER));
+	    runTimePlot();
 	}
 }

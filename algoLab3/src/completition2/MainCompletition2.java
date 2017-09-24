@@ -1,12 +1,14 @@
-package completition1;
+package completition2;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import Exceptions.WrongInputsException;
+import completition1.KnapsackCompletition1;
 import core1.Item;
 
-public class MainCompletition1 {
+public class MainCompletition2 {
+
 	private static int MaxWeight = 0;
 	private static final boolean ASK_USER = false;//It controls if the user is going to be asked for introduce the elements or not
 	private static final boolean ASK_PRINT = false;//It controls if the user is going to be asked for printing the table
@@ -82,7 +84,7 @@ public class MainCompletition1 {
 	 * @throws WrongInputsException
 	 */
 	private static int normalExecution(ArrayList<Item> elements, int[] repetition, int MaxWeight) throws WrongInputsException {
-		return KnapsackCompletition1.knapSack(elements, repetition,MaxWeight, ASK_PRINT);
+		return KnapsackCompletition2.knapSack(elements, repetition,MaxWeight, ASK_PRINT);
 	}
 
 	/**
@@ -104,7 +106,7 @@ public class MainCompletition1 {
 		    //duration [i] = moreReliableTime(elements, repetition);//I calculate the average time of executing the program with a certain amount of elements
 			sum += duration[i];
 
-		    System.out.println("\n" + aux*2 + "\t\t\t\t" + duration[i]);
+		    System.out.println("\n" + aux + "\t\t\t\t" + duration[i]);
 		}
 		System.out.println("\n\nThe average time is " + (long) (sum/NUMBER_OF_PLOTS) + " millisecons with " + NUMBER_OF_PLOTS + " executions");
 	}
@@ -123,7 +125,8 @@ public class MainCompletition1 {
 			value = randomNum;
 			randomNum = 1 + (int)(Math.random() * 5);
 			weight = randomNum;
-			repetition[j] = 2;
+			randomNum = 1 + (int)(Math.random() * 5);
+			repetition[j] = randomNum;
 			name.concat(Integer.toString(j));//I modify the name of the element
 			Item item = new Item(name, value, weight);
 			elements.add(item);//Item to the list
@@ -185,8 +188,7 @@ public class MainCompletition1 {
 			System.out.println("Name: " + elem.getName() + "\tValue: " + elem.getValue() +
 					"\tWeight: " + elem.getWeight() + "\tRepetition: " + repetition[i] + "\n");
 		}
-		//System.out.println(normalExecution(elements, repetition, MaxWeight));
-	    runTimePlot();
+		System.out.println(normalExecution(elements, repetition, MaxWeight));
+	    //runTimePlot();
 	}
 }
-

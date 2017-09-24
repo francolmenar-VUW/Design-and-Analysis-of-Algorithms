@@ -11,7 +11,7 @@ import core1.Item;
 public class MainCore2 {
 	private static int MaxWeight = 0;
 	private static final boolean ASK_USER = false;//It controls if the user is going to be asked for introduce the elements or not
-	private static final boolean TEST_MODE = false;
+	private static final boolean TEST_MODE = true;
 
 	protected static final int DEFAULT_MAXIMUM_WEIGHT = 10;//Default values
 	protected static final String [] DEFAULT_NAME = new String[]{"Diamond", "Gold", "Silver", "Platinum"};
@@ -106,7 +106,7 @@ public class MainCore2 {
 		    //duration [i] = moreReliableTime(elements, repetition);//I calculate the average time of executing the program with a certain amount of elements
 			sum += duration[i];
 
-		    System.out.println("\n" + aux + "\t\t\t\t" + duration[i]);
+		    System.out.println("\n" + aux*2 + "\t\t\t\t" + duration[i]);
 		}
 		System.out.println("\n\nThe average time is " + (long) (sum/NUMBER_OF_PLOTS) + " millisecons with " + NUMBER_OF_PLOTS + " executions");
 	}
@@ -124,8 +124,7 @@ public class MainCore2 {
 			value = randomNum;
 			randomNum = 1 + (int)(Math.random() * 5);
 			weight = randomNum;
-			randomNum = 1 + (int)(Math.random() * 5);
-			repetition[j] = randomNum;
+			repetition[j] = 2;
 			name.concat(Integer.toString(j));//I modify the name of the element
 			Item item = new Item(name, value, weight);
 			elements.add(item);//Item to the list
@@ -188,8 +187,8 @@ public class MainCore2 {
 			System.out.println("Name: " + elem.getName() + "\tValue: " + elem.getValue() +
 					"\tWeight: " + elem.getWeight() + "\tRepetition: " + repetition[i] + "\n");
 		}
-		normalExecution(elements, repetition, MaxWeight);
-	    //runTimePlot();
+		//normalExecution(elements, repetition, MaxWeight);
+	    runTimePlot();
 	}
 
 }
